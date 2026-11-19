@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0b0b0d">
+<title>Hotel y Restaurante Mariana — Propuesta</title>
+<meta name="description" content="Propuesta de sitio web con recorrido para Hotel y Restaurante Mariana, Playa El Espino. Demo, no es el sitio oficial.">
+<link rel="preload" href="frames/manifest.json" as="fetch" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0b0b0d;--ink:#f6f2ea;--mute:#bdb5aa;--line:#2a2b30;--accent:#0b7f84;--accent-ink:#ffffff;--warm:#ffd9a8;--cream:#f4efe6;--dark:#17150f}
+  *{box-sizing:border-box}
+  html.lenis,html.lenis body{height:auto}
+  .lenis.lenis-smooth{scroll-behavior:auto!important}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:500;letter-spacing:-.01em;margin:0}
+
+  /* Aviso de propuesta */
+  .demo{position:fixed;left:0;right:0;bottom:0;z-index:50;background:#f4efe6;color:#3a352d;font-size:12px;text-align:center;padding:7px 12px calc(7px + env(safe-area-inset-bottom));letter-spacing:.02em}
+  .demo b{font-weight:600}
+
+  /* Barra */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;pointer-events:none;background:linear-gradient(to bottom,rgba(5,5,6,.55),rgba(5,5,6,0))}
+  .nav > *{pointer-events:auto}
+  .brand{font-family:Fraunces,serif;font-size:18px;letter-spacing:.02em}
+  .brand small{display:block;font-family:Inter;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+  .nav-cta{text-decoration:none;font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:9px 16px;background:rgba(10,10,12,.25);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .btn:focus-visible,.nav-cta:focus-visible,.chapters a:focus-visible{outline:2px solid var(--warm);outline-offset:3px}
+
+  /* Tramos */
+  .scrub{position:relative}
+  #scrub1{height:420vh} #scrub2{height:600vh} #scrub3{height:280vh}
+  html[data-tier="p"] #scrub1{height:340vh} html[data-tier="p"] #scrub2{height:500vh} html[data-tier="p"] #scrub3{height:240vh}
+  .sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#050506}
+  .sticky canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .6s ease}
+  .sticky canvas.ready{opacity:1}
+  .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.8)}
+  html[data-tier="d"] .poster{object-fit:contain;background:#0d0d0f}
+  .vig{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(5,5,6,.85) 0%,rgba(5,5,6,.35) 28%,rgba(5,5,6,0) 50%),linear-gradient(to bottom,rgba(5,5,6,.45) 0%,rgba(5,5,6,0) 14%)}
+  html[data-tier="d"] .vig{background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.45) 100%)}
+
+  .ov{position:absolute;z-index:3;opacity:0;visibility:hidden;transform:translateY(var(--dy,22px));text-shadow:0 2px 22px rgba(0,0,0,.5);will-change:opacity,transform}
+  .ov .n{font-family:Inter;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);font-weight:600;margin-bottom:10px;display:block}
+  .ov h2{font-size:clamp(36px,3.8vw,60px);line-height:1.04}
+  .ov p{font-size:17px;line-height:1.55;color:#efe9df;margin:12px 0 0}
+  .cap{left:20px;right:20px;bottom:calc(110px + env(safe-area-inset-bottom));max-width:520px}
+  .hero{left:20px;right:20px;top:calc(84px + env(safe-area-inset-top));max-width:660px}
+  .hero .tag{font-family:Inter;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--warm);font-weight:600;margin-bottom:14px}
+  .hero h1{font-size:clamp(46px,11vw,104px);line-height:.95}
+  .hero p{font-size:18px;color:#efe9df;margin-top:16px;max-width:30em}
+  .hint{position:absolute;left:20px;bottom:calc(48px + env(safe-area-inset-bottom));z-index:3;display:flex;align-items:center;gap:12px;font-size:14px;text-shadow:0 1px 10px rgba(0,0,0,.6)}
+  .hint i{width:22px;height:34px;border:2px solid var(--ink);border-radius:12px;position:relative}
+  .hint i::after{content:"";position:absolute;left:50%;top:6px;width:4px;height:7px;margin-left:-2px;background:var(--ink);border-radius:2px;animation:wheel 1.6s infinite}
+  @keyframes wheel{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(12px)}}
+  .ov .btn{margin-top:22px;pointer-events:auto}
+  html[data-tier="p"] .hero-shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,rgba(5,5,6,.72) 0%,rgba(5,5,6,.3) 34%,rgba(5,5,6,0) 52%)}
+
+  html[data-tier="d"] .cap{bottom:auto;top:50%;transform:translateY(calc(-50% + var(--dy,22px)));max-width:min(27vw,440px)}
+  html[data-tier="d"] .cap.l{left:clamp(24px,5vw,96px);right:auto}
+  html[data-tier="d"] .cap.r{right:clamp(150px,10vw,220px);left:auto;text-align:right}
+  html[data-tier="d"] .hero{top:50%;transform:translateY(calc(-50% + var(--dy,0px)));left:clamp(24px,5vw,96px);max-width:min(28vw,460px)}
+  html[data-tier="d"] .hero h1{font-size:clamp(46px,4.6vw,86px)}
+  html[data-tier="d"] .hint{left:50%;transform:translateX(-50%)}
+
+  .chapters{position:fixed;right:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:14px;z-index:30}
+  .chapters a{display:flex;align-items:center;gap:10px;justify-content:flex-end;font-size:12px;color:rgba(255,255,255,.55);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:color .3s;min-height:24px;mix-blend-mode:difference}
+  .chapters a::after{content:"";width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);transition:all .3s}
+  .chapters a.on{color:#fff}
+  .chapters a.on::after{background:var(--warm);transform:scale(1.5)}
+  html[data-tier="p"] .chapters a{font-size:0;gap:0}
+
+  /* Bandas */
+  .band{background:var(--cream);color:var(--dark);text-align:center;padding:96px 20px 88px}
+  .band .facts{display:flex;flex-wrap:wrap;justify-content:center;gap:28px 56px;margin:0 auto 64px;max-width:960px}
+  .band .facts div{display:flex;flex-direction:column;align-items:center}
+  .band .facts b{font-family:Fraunces,serif;font-size:clamp(32px,5vw,50px);font-weight:500}
+  .band .facts small{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#6b6459;margin-top:4px}
+  .band h2{font-size:clamp(40px,7vw,82px);line-height:1.02}
+  .band p{color:#5b554c;font-size:18px;margin:14px auto 0;max-width:34em}
+  .band .arrow{font-size:28px;margin-top:28px;color:#8a837a}
+
+  /* Info y contacto */
+  section.block{max-width:1100px;margin:0 auto;padding:96px 20px}
+  .kicker{color:var(--warm);font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin-bottom:12px}
+  .info{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;margin-top:28px}
+  .info div{border-top:1px solid #3a3b40;padding-top:16px}
+  .info small{display:block;font-size:13px;color:var(--mute);letter-spacing:.08em;text-transform:uppercase}
+  .info b{display:block;font-family:Fraunces,serif;font-size:28px;font-weight:500;margin:6px 0}
+  .info span{color:var(--mute);font-size:15px;line-height:1.5}
+  .final{text-align:center}
+  .final h2{font-size:clamp(42px,8vw,86px)}
+  .final p{color:var(--mute);font-size:18px}
+  .ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:26px}
+  .btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;padding:17px 28px;border-radius:999px;font-weight:600;font-size:17px;min-height:44px}
+  .btn.primary{background:var(--accent);color:var(--accent-ink)}
+  .btn.ghost{border:1px solid #5a5b60}
+  footer{border-top:1px solid var(--line);padding:26px 20px 60px;color:var(--mute);font-size:14px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;max-width:1100px;margin:0 auto}
+  .float{position:fixed;right:16px;bottom:calc(46px + env(safe-area-inset-bottom));z-index:35;opacity:0;transform:translateY(16px);transition:all .35s;pointer-events:none;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+  .float.show{opacity:1;transform:none;pointer-events:auto}
+  html[data-tier="d"] .float{display:none}
+  @media (prefers-reduced-motion:reduce){.hint i::after{animation:none}}
+</style>
+<script>
+  document.documentElement.setAttribute("data-tier", innerHeight > innerWidth * 1.2 ? "p" : "d");
+</script>
+</head>
+<body>
+
+<div class="demo"><b>Propuesta de rediseño</b> para Hotel y Restaurante Mariana · demo, no es el sitio oficial</div>
+
+<header class="nav">
+  <div class="brand">Hotel Mariana<small>Playa El Espino</small></div>
+  <a class="nav-cta wa" href="#" target="_blank" rel="noopener">Reservar</a>
+</header>
+
+<nav class="chapters" aria-label="Partes del recorrido">
+  <a href="#scrub1" data-chapter="llegada">Llegada</a>
+  <a href="#scrub2" data-chapter="adentro">Piscina y habitaciones</a>
+  <a href="#scrub3" data-chapter="sabor">Restaurante</a>
+  <a href="#info" data-chapter="info">Reservar</a>
+</nav>
+
+<main>
+<!-- ============ TRAMO 1 · LLEGADA ============ -->
+<section class="scrub" id="scrub1" data-chapter="llegada" aria-label="Llegada al hotel">
+  <div class="sticky">
+    <img class="poster" src="frames/s1-poster.jpg" alt="" aria-hidden="true">
+    <canvas aria-hidden="true"></canvas>
+    <div class="vig"></div><div class="hero-shade"></div>
+
+    <div class="ov hero" data-tramo="1" data-from="0" data-to="0.14" style="opacity:1;visibility:visible;--dy:0px">
+      <div class="tag">Playa El Espino · Usulután</div>
+      <h1>Hotel y Restaurante Mariana</h1>
+      <p>Piscina, mar y descanso a pasos de la Bahía de Jiquilisco. Recorrélo antes de llegar.</p>
+    </div>
+    <div class="ov hint" data-tramo="1" data-from="0" data-to="0.06" style="opacity:1;visibility:visible;--dy:0px"><i aria-hidden="true"></i> Desliza para recorrer el hotel</div>
+
+    <div class="ov cap r" data-tramo="1" data-from="0.38" data-to="0.6">
+      <span class="n">Llegada</span>
+      <h2>Llegás y ya<br>estás de vacaciones.</h2>
+      <p>Parqueo gratis adentro del hotel, jardín y palmeras. Bajás las maletas y al agua.</p>
+    </div>
+    <div class="ov cap l" data-tramo="1" data-from="0.72" data-to="0.97">
+      <span class="n">La piscina</span>
+      <h2>El centro<br>de todo.</h2>
+      <p>Piscina al aire libre rodeada de arcos y sombra, para pasar el día entero sin pensar en nada.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="facts">
+    <div><b>10 min</b><small>a pie de la bahía</small></div>
+    <div><b>Piscina</b><small>al aire libre</small></div>
+    <div><b>Wifi</b><small>gratis</small></div>
+    <div><b>Parqueo</b><small>gratis</small></div>
+  </div>
+  <h2>Pasá adelante</h2>
+  <p>La piscina, las habitaciones y cada rincón, como si ya estuvieras ahí.</p>
+  <div class="arrow" aria-hidden="true">↓</div>
+</section>
+
+<!-- ============ TRAMO 2 · PISCINA Y HABITACIONES ============ -->
+<section class="scrub" id="scrub2" data-chapter="adentro" aria-label="Piscina y habitaciones">
+  <div class="sticky">
+    <img class="poster" src="frames/s2-poster.jpg" alt="" aria-hidden="true" loading="lazy">
+    <canvas aria-hidden="true"></canvas>
+    <div class="vig"></div>
+    <div class="ov cap l" data-tramo="2" data-from="0.03" data-to="0.2">
+      <span class="n">Bajo los arcos</span>
+      <h2>Sombra fresca,<br>agua azul.</h2>
+      <p>Desde los corredores se ve la piscina. Una silla, algo frío y el día se arregla solo.</p>
+    </div>
+    <div class="ov cap r" data-tramo="2" data-from="0.27" data-to="0.42">
+      <span class="n">La piscina</span>
+      <h2>Para grandes<br>y chicos.</h2>
+      <p>Espacio para nadar y un área redonda para los que apenas están aprendiendo.</p>
+    </div>
+    <div class="ov cap l" data-tramo="2" data-from="0.46" data-to="0.6">
+      <span class="n">Habitaciones</span>
+      <h2>Frescas, limpias<br>y con aire.</h2>
+      <p>Aire acondicionado, televisión y camas para descansar de verdad después del sol.</p>
+    </div>
+    <div class="ov cap r" data-tramo="2" data-from="0.65" data-to="0.8">
+      <span class="n">Habitaciones</span>
+      <h2>Para toda<br>la familia.</h2>
+      <p>Habitaciones con varias camas y habitaciones comunicadas, para que nadie se quede afuera del paseo.</p>
+    </div>
+    <div class="ov cap l" data-tramo="2" data-from="0.85" data-to="0.99">
+      <span class="n">Habitaciones</span>
+      <h2>Dormir con<br>la brisa del mar.</h2>
+      <p>Cuartos amplios y tranquilos, a minutos de la playa.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <h2>Y para comer…</h2>
+  <p>El restaurante del hotel, con los mariscos de la zona.</p>
+  <div class="arrow" aria-hidden="true">↓</div>
+</section>
+
+<!-- ============ TRAMO 3 · RESTAURANTE ============ -->
+<section class="scrub" id="scrub3" data-chapter="sabor" aria-label="El restaurante">
+  <div class="sticky">
+    <img class="poster" src="frames/s3-poster.jpg" alt="" aria-hidden="true" loading="lazy">
+    <canvas aria-hidden="true"></canvas>
+    <div class="vig"></div>
+    <div class="ov cap l" data-tramo="3" data-from="0.06" data-to="0.45">
+      <span class="n">Restaurante</span>
+      <h2>Del mar<br>a tu mesa.</h2>
+      <p>Camarones, arroz, tortillas y una cerveza bien fría, sin salir del hotel.</p>
+    </div>
+    <div class="ov cap r" data-tramo="3" data-from="0.56" data-to="0.72" data-keep>
+      <h2>¿Cuándo venís?</h2>
+      <a class="btn primary wa" href="#" target="_blank" rel="noopener">Reservar por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="info" data-chapter="info">
+  <div class="kicker">Tu estadía</div>
+  <h2 style="font-size:clamp(34px,5vw,54px)">Lo que necesitás saber</h2>
+  <div class="info">
+    <div><small>Tarifa</small><b>Desde [TARIFA]</b><span>Por noche, habitación doble. Precios especiales para grupos y familias.</span></div>
+    <div><small>Ubicación</small><b>Arcos del Espino</b><span>Jucuarán, Usulután. A 10 minutos a pie de la Bahía de Jiquilisco.</span></div>
+    <div><small>Incluye</small><b>Wifi y parqueo</b><span>Piscina al aire libre, restaurante, terraza en la azotea y habitaciones comunicadas.</span></div>
+  </div>
+</section>
+
+<section class="block final">
+  <h2>Te esperamos en El Espino</h2>
+  <p>Escribinos por WhatsApp y te confirmamos disponibilidad al momento.</p>
+  <div class="ctas">
+    <a class="btn primary wa" href="#" target="_blank" rel="noopener">Reservar por WhatsApp</a>
+    <a class="btn ghost" href="https://www.google.com/maps/search/?api=1&query=Hotel+y+Restaurante+Mariana+El+Espino" target="_blank" rel="noopener">Cómo llegar</a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <span>Hotel y Restaurante Mariana · Arcos del Espino, Jucuarán, Usulután</span>
+  <span>Propuesta de diseño · fotos del hotel</span>
+</footer>
+
+<a class="btn primary wa float" href="#" target="_blank" rel="noopener">Reservar</a>
+
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
