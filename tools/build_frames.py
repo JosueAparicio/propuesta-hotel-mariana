@@ -50,7 +50,7 @@ TRAMOS = {
 TRANS = {"s1": ["fade", "smoothleft"], "s2": ["fade", "zoomin", "fade", "smoothleft"], "s3": []}
 
 # formato: (ancho maestro, alto maestro, ancho exportado, alto exportado, calidad hi, calidad lo)
-TIERS = {"p": (1080, 1920, 864, 1536, 76, 62), "d": (1920, 1080, 1920, 1080, 74, 60)}
+TIERS = {"p": (1080, 1920, 864, 1536, 72, 60), "d": (1920, 1080, 1920, 1080, 70, 58)}
 
 
 def run(args):
@@ -82,7 +82,10 @@ def lienzo(path, W, H, tmp):
     # La foto completa, centrada sobre su propio fondo desenfocado
     fit = min(big[0] * 0.94 / w, big[1] * 0.94 / h)
     fg = im.resize((round(w * fit), round(h * fit)), Image.LANCZOS)
-    bg.paste(fg, ((big[0] - fg.width) // 2, (big[1] - fg.height) // 2))
+    # En pantalla vertical la foto va arriba (centro al 36 %), así el texto de abajo queda sobre el fondo
+    cy = 0.36 if H > W else 0.5
+    top = max(0, min(big[1] - fg.height, round(big[1] * cy - fg.height / 2)))
+    bg.paste(fg, ((big[0] - fg.width) // 2, top))
     bg.save(out)
     return out
 
@@ -106,7 +109,7 @@ def toma(spec, out, W, H, tmp):
     z = {"in": f"1+0.12*on/{n}", "out": f"1.12-0.12*on/{n}", "down": f"1.14-0.08*on/{n}", "right": "1.12"}[mov]
     x = {"in": "iw/2-(iw/zoom/2)", "out": "iw/2-(iw/zoom/2)", "down": "iw/2-(iw/zoom/2)",
          "right": f"(iw-iw/zoom)*on/{n}"}[mov]
-    y = {"in": "ih/2-(ih/zoom/2)", "out": "ih/2-(ih/zoom/2)", "down": f"(ih-ih/zoom)*(0.2+0.6*on/{n})",
+    y = {"in": "ih*0.4-(ih/zoom*0.4)", "out": "ih*0.4-(ih/zoom*0.4)", "down": f"(ih-ih/zoom)*(0.2+0.6*on/{n})",
          "right": "ih/2-(ih/zoom/2)"}[mov]
     vf = f"zoompan=z='{z}':x='{x}':y='{y}':d={n}:s={W}x{H}:fps={FPS},setsar=1"
     run(["-i", src, "-vf", vf, "-frames:v", str(n), "-c:v", "libx264", "-crf", "12", "-pix_fmt", "yuv420p", out])
