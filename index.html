@@ -39,9 +39,9 @@
   .sticky canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .6s ease}
   .sticky canvas.ready{opacity:1}
   .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.8)}
-  html[data-tier="d"] .poster{object-fit:contain;background:#0d0d0f}
+  
   .vig{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(5,5,6,.85) 0%,rgba(5,5,6,.35) 28%,rgba(5,5,6,0) 50%),linear-gradient(to bottom,rgba(5,5,6,.45) 0%,rgba(5,5,6,0) 14%)}
-  html[data-tier="d"] .vig{background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.45) 100%)}
+  html[data-tier="d"] .vig{background:linear-gradient(to right,rgba(5,5,6,.72) 0%,rgba(5,5,6,.2) 34%,rgba(5,5,6,0) 50%,rgba(5,5,6,.2) 66%,rgba(5,5,6,.72) 100%),linear-gradient(to bottom,rgba(5,5,6,.4) 0%,rgba(5,5,6,0) 14%)}
 
   .ov{position:absolute;z-index:3;opacity:0;visibility:hidden;transform:translateY(var(--dy,22px));text-shadow:0 2px 22px rgba(0,0,0,.5);will-change:opacity,transform}
   .ov .n{font-family:Inter;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);font-weight:600;margin-bottom:10px;display:block}
@@ -106,6 +106,10 @@
 </style>
 <script>
   document.documentElement.setAttribute("data-tier", innerHeight > innerWidth * 1.2 ? "p" : "d");
+  document.addEventListener("DOMContentLoaded", function () {
+    if (document.documentElement.getAttribute("data-tier") !== "d") return;
+    document.querySelectorAll("img.poster").forEach(function (i) { i.src = i.getAttribute("src").replace("-p.jpg", "-d.jpg"); });
+  });
 </script>
 </head>
 <body>
@@ -128,7 +132,7 @@
 <!-- ============ TRAMO 1 · LLEGADA ============ -->
 <section class="scrub" id="scrub1" data-chapter="llegada" aria-label="Llegada al hotel">
   <div class="sticky">
-    <img class="poster" src="frames/s1-poster.jpg" alt="" aria-hidden="true">
+    <img class="poster" src="frames/s1-poster-p.jpg" alt="" aria-hidden="true">
     <canvas aria-hidden="true"></canvas>
     <div class="vig"></div><div class="hero-shade"></div>
 
@@ -167,7 +171,7 @@
 <!-- ============ TRAMO 2 · PISCINA Y HABITACIONES ============ -->
 <section class="scrub" id="scrub2" data-chapter="adentro" aria-label="Piscina y habitaciones">
   <div class="sticky">
-    <img class="poster" src="frames/s2-poster.jpg" alt="" aria-hidden="true" loading="lazy">
+    <img class="poster" src="frames/s2-poster-p.jpg" alt="" aria-hidden="true" loading="lazy">
     <canvas aria-hidden="true"></canvas>
     <div class="vig"></div>
     <div class="ov cap l" data-tramo="2" data-from="0.03" data-to="0.2">
@@ -207,7 +211,7 @@
 <!-- ============ TRAMO 3 · RESTAURANTE ============ -->
 <section class="scrub" id="scrub3" data-chapter="sabor" aria-label="El restaurante">
   <div class="sticky">
-    <img class="poster" src="frames/s3-poster.jpg" alt="" aria-hidden="true" loading="lazy">
+    <img class="poster" src="frames/s3-poster-p.jpg" alt="" aria-hidden="true" loading="lazy">
     <canvas aria-hidden="true"></canvas>
     <div class="vig"></div>
     <div class="ov cap l" data-tramo="3" data-from="0.06" data-to="0.45">
